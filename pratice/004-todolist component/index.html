@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+
+</body>
+<script>
+  // 使用Vue对象的createApp函数创建用mount函数挂载并且挂载
+  let app = Vue.createApp({
+    data() {
+      return {
+        inputVal: '',
+        list: []
+      }
+    },
+    methods: {
+      pushItem() {
+        this.list.push(this.inputVal);
+        this.inputVal = '';
+      }
+    },
+    template: `
+      <div>
+        <input v-model="inputVal" />
+        <button v-on:click="pushItem" v-bind:title="inputVal">添加</button>
+        <ul>
+          <todo-item v-for="(item, index) of list" v-bind:index="index" v-bind:content="item" />
+        </ul>
+      </div>
+    `
+  })
+  app.component('todo-item', {
+    props: [
+      'index',
+      'content'
+    ],
+    template: `
+      <li>{{index}}-{{content}}</li>
+    `
+  })
+  app.mount('#root');
+</script>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+
+</body>
+<script>
+  // 生命周期函数，某一时刻会自动执行的函数
+  let app = Vue.createApp({
+    data() {
+      return {
+        message: 'hello world'
+      }
+    },
+    // 在实例生成之前自动执行的函数
+    beforeCreate() {
+      console.log('function beforeCreate run');
+    },
+    created() {
+      console.log('function created run');
+    },
+    // 在组件内容被渲染到页面之前立即执行的函数
+    beforeMount() {
+      console.log('function beforeMount run');
+      console.log(document.getElementById('root').innerHTML);
+    },
+    // 在组件内容被渲染到页面之后自动执行的函数
+    mounted() {
+      console.log('function mounted run');
+      console.log(document.getElementById('root').innerHTML);
+    },
+    // 当data中数据发生变化时会自动执行的函数
+    beforeUpdate() {
+      console.log('function beforeUpdate run');
+      console.log(document.getElementById('root').innerHTML);
+    },
+    // 当data中数据发生变化，页面被重新渲染后，会自动执行的函数
+    updated() {
+      console.log('function updated run');
+      console.log(document.getElementById('root').innerHTML);
+    },
+    // 当页面被卸载
+    beforeUnmount() {
+      console.log('function beforeUnmount run');
+      console.log(document.getElementById('root').innerHTML);
+    },
+    unmounted() {
+      console.log('function beforeUnmount run');
+      console.log(document.getElementById('root').innerHTML);  
+    },
+    template: `<div>{{message}}</div>`
+  })
+  let vm = app.mount('#root');
+</script>
+
+</html>
