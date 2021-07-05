@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // 使用Vue对象的createApp函数创建用mount函数挂载并且挂载
+  let app = Vue.createApp({
+    data() {
+      return {
+        message: 'hello world',
+        count: 2,
+        price: 5,
+        newTotal: 10,
+      }
+    },
+    watch: {
+      // 监听数据price变化，执行函数
+      price(curr, prev) {
+        this.newTotal = curr * this.count;
+      }
+    },
+    // 建议使用computed，有缓存功能 而且较为简洁
+    computed: {
+      // 计算属性只有在依赖的东西进行改变，才会重新执行，就是说如果执行vm.price = 10 total不会重新执行
+      total() {
+        return Date.now() + this.count;
+      }
+    },
+    methods: {
+      // 页面重新渲染的时候，会重新执行
+      getTotal() {
+        return Date.now();
+        // return this.count * this.price;
+      }
+    },
+    template: '<div>{{total}} - {{message}} - {{getTotal()}} - newTotal: {{newTotal}}</div>'
+  });
+  
+  let vm = app.mount("#root");
+</script>
+</html>
