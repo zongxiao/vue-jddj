@@ -12,7 +12,8 @@
   <div id="root"></div>
 </body>
 <script>
-  // 使用Vue对象的createApp函数创建用mount函数挂载并且挂载
+  // computed 和 method 都能实现的一个功能，建议使用computed，因为有缓存功能
+  // computed 和 watcher 都能实现的一个功能，建议使用computed，因为更加简洁
   let app = Vue.createApp({
     data() {
       return {

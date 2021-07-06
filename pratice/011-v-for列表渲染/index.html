@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    .bold {font-weight: bold;}
+    .red {color: red;}
+    .green {color: green;}
+    .yellow {color: yellow;}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // 使用Vue对象的createApp函数创建用mount函数挂载并且挂载
+  let app = Vue.createApp({
+    data() {
+      return {
+        list: ['a', 'b', 'c'],
+        listObj: {
+          name: 'lzx',
+          age: 25,
+          sex: 'male'
+        }
+      }
+    },
+    methods: {
+      changeData() {
+        this.list.push('d');
+        this.listObj.height = '174cm'
+      }
+    },
+    template: `
+      <div>
+        <ul>
+          <li v-for="(item, index) in list" :key="index">{{item}}</li>
+        </ul>
+
+        <ul>
+          <li v-for="(value, key, index) in listObj" :key="index">
+            {{key}}: {{value}} -------{{index}}  
+          </li>  
+        </ul>
+
+        <div v-for="item in 5">
+          {{item}}
+        </div>
+
+        <button @click="changeData()">change</button>
+      </div>
+    `
+  });
+
+  let vm = app.mount('#root');
+</script>
+</html>

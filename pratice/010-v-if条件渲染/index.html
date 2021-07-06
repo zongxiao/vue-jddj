@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    .bold {font-weight: bold;}
+    .red {color: red;}
+    .green {color: green;}
+    .yellow {color: yellow;}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // 使用Vue对象的createApp函数创建用mount函数挂载并且挂载
+  let app = Vue.createApp({
+    data() {
+      return {
+        message: 'hello world',
+        show: true,
+        conditionA: false,
+        conditionB: true
+      }
+    },
+    // v-if是通过绑定一个变量，决定是否移除dom节点
+    // v-show是通过绑定变量决定是否添加 display:none;
+    // v-if和v-else-if和v-else可以使用但是必须紧贴着
+    template: `
+      <div v-if="show">{{message}}</div>
+      <div v-show="show">{{message}}</div>
+      <div v-if="conditionA">if</div>
+      <div v-else-if="conditionB">else if</div>
+      <div v-else>else</div>
+    `
+  });
+
+  let vm = app.mount('#root');
+</script>
+</html>

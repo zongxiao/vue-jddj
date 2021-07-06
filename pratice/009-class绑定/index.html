@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    .bold {font-weight: bold;}
+    .red {color: red;}
+    .green {color: green;}
+    .yellow {color: yellow;}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // 使用Vue对象的createApp函数创建用mount函数挂载并且挂载
+  let app = Vue.createApp({
+    data() {
+      return {
+        message: 'hello world',
+        classString: 'red bold',
+        classObject: { red: false, yellow: true },
+        classArray: ['red', 'bold', {green: true}],
+        styleObject: {
+          color: 'orange'
+        }
+      }
+    },
+    template: `
+      <div :class="classArray" :style="styleObject">
+        {{message}}
+        <demo :title="message" :classObject="classObject" />
+      </div>
+    `
+  });
+
+  app.component('demo', {
+    props: ['title', 'classObject'],
+    template: `
+      <div :class="classObject">{{title}}</div>
+    `
+  })
+  let vm = app.mount('#root');
+</script>
+</html>
