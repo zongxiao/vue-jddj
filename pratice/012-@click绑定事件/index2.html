@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // 使用Vue对象的createApp函数创建用mount函数挂载并且挂载
+  let app = Vue.createApp({
+    data() {
+      return {
+        counter: 1,
+      }
+    },
+    methods: {
+      userInput() {
+        console.log('key enter down')
+      },
+      handleMouse() {
+        console.log('mouse click')
+      },
+      ctrlFunc() {
+        console.log('ctr + click')
+      }
+    },
+    // @keydown.enter="func"  按下回车(enter)键的时候执行的函数
+    // 按键修饰符号有： enter tab delete esc up down
+    // 鼠标修饰符：left right middle   @click.right="func" 代表设置鼠标右键点击的时候执行
+    // 精确修饰符：exact
+    template: `
+    <div>
+      {{counter}}
+      <input type="text" v-model="counter" @keydown.enter="userInput" />输入后回车看控制台
+      <div @click.right="handleMouse">鼠标修饰符</div>（点击右键）
+      <div @click.ctrl.exact="ctrlFunc()">精确按住ctrl和鼠标左键才能触发</div>
+    </div>
+    `
+  });
+
+  let vm = app.mount('#root');
+</script>
+</html>

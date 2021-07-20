@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // 事件修饰符：stop、prevent、capture、self、once、passive
+  let app = Vue.createApp({
+    data() {
+      return {
+        counter: 1,
+      }
+    },
+    methods: {
+      handleClick(num, event) {
+        console.log(event);
+        this.counter += num;
+      },
+      handleClick2() {
+        console.log('function handleClick2');
+      },
+      handleClickDiv() {
+        console.log('div click')
+      }
+    },
+    // @click.stop="funcName()" 阻止事件向父亲冒泡
+    // @click="func1(), func2()" 点击执行多个函数
+    // @click="func(100, $event)" 点击事件传递参数
+    // @click.self="func()" 只有自身被点击了才执行，子元素的标签被点击了不执行
+    // @click.once="func()" 只执行一次func函数
+    template: `
+    <div @click.self="handleClickDiv()">
+      {{counter}}
+      <button @click.stop="handleClick(2, $event), handleClick2()">增加</button>
+      <button @click.once="handleClick(2, $event), handleClick2()">增加1次</button>
+    </div>
+    `
+  });
+
+  let vm = app.mount('#root');
+</script>
+</html>

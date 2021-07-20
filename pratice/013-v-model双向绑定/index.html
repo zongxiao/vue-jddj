@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    .bold {font-weight: bold;}
+    .red {color: red;}
+    .green {color: green;}
+    .yellow {color: yellow;}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // 使用Vue对象的createApp函数创建用mount函数挂载并且挂载
+  let app = Vue.createApp({
+    data() {
+      return {
+        msg: 'hello',
+        checkValue: [],
+        radioValue: '',
+        selectValue: '',
+        options: [
+          { text: 'A', value: 0 },
+          { text: 'B', value: 1 },
+          { text: 'C', value: 2 },
+        ],
+        msg2: '',
+      }
+    },
+    methods: {
+
+    },
+    // input textarea checkbox radio select
+    // v-model.lazy="msg"  当输入框失去焦点的时候才更新数据
+    // v-model.number="msg" 存入的数据以number的格式
+    // v-model.trim="msg" 去掉空格
+    template: `
+      <div>
+        {{msg}}
+        <input v-model="msg" />
+        <textarea v-model="msg" />
+        <br>
+        {{checkValue}}
+        apple<input type="checkbox" v-model="checkValue" value="apple" />
+        peach<input type="checkbox" v-model="checkValue" value="peach" />
+        group<input type="checkbox" v-model="checkValue" value="group" />
+        <br>
+        {{radioValue}}
+        group<input type="radio" v-model="radioValue" value="group" />
+        peach<input type="radio" v-model="radioValue" value="peach" />
+        apple<input type="radio" v-model="radioValue" value="apple" />
+        <br>
+        {{selectValue}}
+        <select v-model="selectValue">
+          <option v-for="(item) in options" :value="item.value">{{item.text}}</option>
+        </select>
+        <br>
+        <input v-model.lazy="msg" />
+        <br>
+        {{typeof msg2}}
+        <input type="number" v-model.number="msg2" />
+      </div>
+    `
+  });
+
+  let vm = app.mount('#root');
+</script>
+</html>
