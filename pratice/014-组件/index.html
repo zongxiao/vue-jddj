@@ -13,8 +13,16 @@
 </body>
 <script>
   // 使用Vue对象的createApp函数创建用mount函数挂载并且挂载
-  let app = Vue.createApp({});
-
+  let app = Vue.createApp({
+    template: `
+      <div>
+        <hello/>
+      </div>
+    `
+  });
+  app.component('hello', {
+    template: '<div>12</div>'
+  })
   let vm = app.mount('#root');
 </script>
 </html>
