@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  let app = Vue.createApp({
+    data() {
+      return {
+        num: 123,
+        func: () => {
+          alert('789');
+        }
+      }
+    },
+    template: `
+      <div>
+        <test content="hello world" :num="num" :func="func" />
+      </div>
+    `
+  });
+  // props中，type规定传参的数据类型，required规定了是否必填，default规定了默认值
+  app.component('test', {
+    // props: ['content', 'num'],
+    props: {
+      'content': {
+        type: String,
+        required: true
+      },
+      'num': {
+        type: Number,
+        required: false,
+        default: 999
+      },
+      'func': {
+        type: Function
+      }
+    },
+    methods: {
+      hanleClick() {
+        alert('123');
+        this.func();
+      }
+    },
+    template: `
+      <div>
+        <div>{{content}}</div>
+        <h4>{{typeof content}}</h4>
+        <h4>{{typeof num}}:{{num}}</h4>
+        <input type="button" value="click" @click="hanleClick()" />
+      </div>`
+  })
+  let vm = app.mount('#root');
+</script>
+</html>

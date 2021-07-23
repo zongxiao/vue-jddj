@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // 组件具备复用性
+  // 全局组件：
+  // 使用app.component定义，定义的组件的数据和方法互相独立，互不干扰
+  // 全局组件 只要定义了 处处可使用但是性能不高 使用方便简单
+  // 局部组件：定义了，要注册之后才能使用，建议大写字母开头
+  // components: {
+  //     'blockComponent': blockComponent
+  // },
+  
+
+  // 定义局部组件
+  const BlockComponent = {
+    data() {
+      return {
+        msg: '局部组件'
+      }
+    },
+    template: `
+      <h3>{{msg}}</h3>
+    `
+  }
+  const Counter2 = {
+    data() {
+      return {
+        msg: '局部组件2'
+      }
+    },
+    template: `
+      <h3>{{msg}}</h3>
+    `
+  }
+  let app = Vue.createApp({
+    // 注册局部组件
+    components: {
+      BlockComponent,
+      counter2: Counter2
+    },
+    template: `
+      <div>
+        <block-component />
+        <counter />
+        <counter />
+        <counter />
+        <counter2 />
+      </div>
+    `
+  });
+  app.component('counter', {
+    data() {
+      return {
+        count: 1
+      }
+    },
+    methods: {
+      addCount(event) {
+        console.log(event);
+        this.count = this.count + 1;
+      }
+    },
+    template: `
+      <div>
+        {{count}}
+        <input type="button" @click="addCount($event)" value="点击加一" />
+      </div>
+    `
+  })
+  let vm = app.mount('#root');
+</script>
+</html>

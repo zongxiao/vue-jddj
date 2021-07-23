@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<style>
+  .red {
+    color: red;
+    font-weight: bold;
+    font-size: 30px;
+  }
+  [name='abc'] {
+    color: green;
+    font-weight: bold;
+  }
+</style>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  let app = Vue.createApp({
+    data() {
+      return {
+      }
+    },
+    template: `
+      <div>
+        <test class="red" name="abc" />
+      </div>
+    `
+  });
+  
+  app.component('test', {
+    // 如果子组件没有设置props接收对应父组件传过来的属性，那么会自动给子组件的外层套上属性，除非添加inheritAttrs: false 那样可以表示不继承包含class="red"的所有属性
+    inheritAttrs: false,
+    // props: ['class'],
+    mounted() {
+      console.log(this.$attrs);
+    },
+    template: `
+      <div>
+        <h4>counter</h4>
+        <p :name="$attrs.name">name</p>
+      </div>`
+  })
+  let vm = app.mount('#root');
+</script>
+</html>

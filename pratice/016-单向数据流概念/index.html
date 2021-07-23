@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  let app = Vue.createApp({
+    data() {
+      return {
+        params: {
+          a: 'a',
+          b: 'bb',
+          c: 'ccc',
+          num: 123
+        },
+        content: 'hello world'
+      }
+    },
+    // 传多个参数简写，可以将要传的数据用对象obj存起来，然后直接v-bind="obj"，子组件接受的时候把各个参数罗列即可
+    // v-bind="params" <==> :a="params.a" :b="params.b" :c="params.c" :num="params.num"
+    // 绑定cont-hello这种用短杆连接的属性时，组件接收的时候要自动转为驼峰写法contHello，否则报NAN
+    // 单项数据流：子组件可以使用父组件传递过来的数据但是不可以修改传递过来的数据，要想改边数据，可以把接收的值赋值给子组件自己定义的data里面的变量
+    template: `
+      <div>
+        <test v-bind="params" :cont-hello="content" />
+      </div>
+    `
+  });
+  
+  app.component('test', {
+    props: ['num', 'a', 'b', 'c', 'contHello'],
+    data() {
+      return {
+        myNum: this.num
+      }
+    },
+    template: `
+      <div>
+        <h4>{{num}}-{{a}}-{{b}}-{{c}}-{{contHello}}</h4>
+        <div>{{myNum}}<input type="button" value="change" @click="myNum += 1" /></div>
+      </div>`
+  })
+  let vm = app.mount('#root');
+</script>
+</html>
