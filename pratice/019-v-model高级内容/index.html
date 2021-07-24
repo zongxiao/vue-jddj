@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  let app = Vue.createApp({
+    data() {
+      return {
+        count: 1,
+        letter: 'a'
+      }
+    },
+    template: `
+      <div>
+        <counter v-model:count="count" v-model:letter="letter" />
+      </div>
+    `
+  });
+  app.component('counter', {
+    props: ['count', 'letter'],
+    methods: {
+      handleCountClick() {
+        this.$emit('update:count', this.count * 2);
+      },
+      handleLetterClick() {
+        this.$emit('update:letter', this.letter + 'c');
+      }
+    },
+    template: `
+      <div>
+        <h4 @click="handleCountClick">{{count}}</h4>
+        <h4 @click="handleLetterClick">{{letter}}</h4>
+      </div>`
+  })
+  let vm = app.mount('#root');
+</script>
+</html>

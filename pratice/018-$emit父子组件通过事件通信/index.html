@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  let app = Vue.createApp({
+    data() {
+      return {
+        count: 1
+      }
+    },
+    methods: {
+      handleAdd(param) {
+        this.count = param;
+      }
+    },
+    template: `
+      <div>
+        <counter :count="count" @add="handleAdd" />
+      </div>
+    `
+  });
+  
+  app.component('counter', {
+    props: ['count'],
+    // 设置emits属性值为数组，可以明显的让自己明白本组件会向父组件触发的事件列表
+    emits: ['add'],
+    // 也可以设置emits属性值为对象，对象里面是方法事件，来对该组件向父组件触发自定义事件的时候进行一个监管，下方是校验触发add事件的传播出去的参数是否大于0
+    // emits: {
+    //   add(param) {
+    //     if (param > 0) {
+    //       return false;
+    //     } else {
+    //       return true;
+    //     }
+    //   }
+    // },
+    methods: {
+      handleClick() {
+        this.$emit('add', this.count + 2);
+      }
+    },
+    template: `
+      <div>
+        <h4 @click="handleClick">{{count}}</h4>
+      </div>`
+  })
+  let vm = app.mount('#root');
+</script>
+</html>
