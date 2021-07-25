@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  const ProvideChildChild = {
+    inject: ['lang'],
+    template: `<div>{{lang}}</div>`
+  };
+
+  const ProvideChild = {
+    components: {
+      ProvideChildChild
+    },
+    template: '<provide-child-child />'
+  };
+
+  let app = Vue.createApp({
+    data() {
+      return {
+        msg: 'hello world',
+        lang: 'vue3'
+      }
+    },
+    provide() {
+      return {
+        lang: this.lang
+      }
+    },
+    components: {
+      'provide-child': ProvideChild
+    },
+    template: `
+      <props-child :msg="msg" />
+      <provide-child />
+    `
+  });
+  app.component('props-child', {
+    props: ['msg'],
+    template: `<props-child-child :msg="msg"/>`
+  })
+  app.component('props-child-child', {
+    props: ['msg'],
+    template: '<span>{{msg}}</span>'
+  })
+  
+  let vm = app.mount('#root');
+</script>
+</html>

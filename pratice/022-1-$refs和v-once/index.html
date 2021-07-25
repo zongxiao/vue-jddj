@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  let app = Vue.createApp({
+    data() {
+      return {
+        count: 1,
+      }
+    },
+    mounted() {
+      this.$refs.h3.innerHTML = 'hello world';
+      console.log(this.$refs.comment.sayHi());
+    },
+    methods: {
+    },
+    // v-once  限制只渲染一次
+    // ref="h3" this.$refs.h3 获取对应的dom节点 / 或者获取组件引用
+    template: `
+      <div @click="count += 1" v-once>
+        <h3 ref="h3">{{count}}</h3>
+        <comment ref="comment" />
+      </div>
+    `
+  });
+
+  app.component('comment', {
+    data() {
+      return {
+        msg: 'span'
+      }
+    },
+    template: '<span>span tag</span>',
+    methods: {
+      sayHi() {
+        console.log('hi');
+        return '执行成功'
+      }
+    }
+  })
+  
+  let vm = app.mount('#root');
+</script>
+</html>
