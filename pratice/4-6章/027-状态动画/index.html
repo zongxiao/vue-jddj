@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>状态动画</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // 使用Vue对象的createApp函数创建用mount函数挂载并且挂载
+  const app = Vue.createApp({
+    data() {
+      return {
+        number: 1,
+        countNumber: 1
+      }
+    },
+    methods: {
+      handleClick() {
+        this.number = 10;
+        if (this.countNumber < this.number) {
+          const timer = setInterval(() => {
+            this.countNumber += 1;
+            if (this.countNumber === this.number) {
+              clearInterval(timer);
+            }
+          }, 100);
+        }
+      },
+    },
+    template: `
+    <div>
+      <h4>{{countNumber}}</h4>
+      <button class="button-class" @click="handleClick">click</button>
+    </div>
+    `
+  });
+  const vm = app.mount('#root');
+</script>
+
+</html>

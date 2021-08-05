@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    .span-class { display: inline-block; margin-right: 10px; font-weight: bold; }
+    .button-class { display: block; width: 80px; }
+    .v-enter-from, .v-leave-to { opacity: 0; transform: translateY(-30px); }
+    .v-enter-active, .v-leave-active { transition: all 1s ease-in-out; }
+    .v-enter-to, .v-leave-from { opacity: 1; transform: translateY(0); }
+    .v-move { transition: all 1s ease-in-out; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // 使用Vue对象的createApp函数创建用mount函数挂载并且挂载
+  const app = Vue.createApp({
+    data() {
+      return {
+        list: [1, 2, 3]
+      }
+    },
+    methods: {
+      handleClick() {
+        this.list.unshift(Math.round(Math.random() * 10));
+      },
+      handleDel(index) {
+        console.log(index);
+        this.list.splice(index, 1);
+      }
+    },
+    // <transition-group></transition-group> 列表动画标签
+    template: `
+    <div>
+      <transition-group mode="out-in" appear>
+        <span class="span-class" v-for="(item, index) in list" :key="item" @click="handleDel(index)">{{item}}</span>
+      </transition-group>
+      <button class="button-class" @click="handleClick">click</button>
+    </div>
+    `
+  });
+  const vm = app.mount('#root');
+</script>
+</html>

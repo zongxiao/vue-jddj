@@ -34,20 +34,56 @@
   const app = Vue.createApp({
     data() {
       return {
-        show: false
+        show1: false,
+        show2: false,
+        color: "",
+        timer: null
       }
     },
     methods: {
       handleClick() {
-        this.show = !this.show;
+        this.show1 = !this.show1;
+      },
+      handleClick2() {
+        this.show2 = !this.show2;
+      },
+      handleBeforeEnter(el) {
+        el.style.color = "yellow";
+      },
+      handleEnter(el, done) {
+        this.timer = setInterval(() => {
+          this.color = el.style.color;
+          if (this.color === 'yellow') {
+            el.style.color = "red";
+          } else {
+            el.style.color = "yellow";
+          }
+        }, 500);
+        setTimeout(() => {
+          // 三秒钟之后，执行done函数，告诉钩子@after-enter可以执行了
+          done();
+        }, 3000)
+      },
+      handleEnterAfter(el) {
+        clearInterval(this.timer);
       }
     },
     template: `
     <div>
       <transition>
-        <div v-if="show">hello world!</div>
+        <div v-if="show1">hello world!</div>
       </transition>
       <button @click="handleClick">click</button>
+      <h1>js 动画</h1>
+      <transition 
+        :css="false"
+        @before-enter="handleBeforeEnter"
+        @enter="handleEnter"
+        @after-enter="handleEnterAfter"
+      >
+        <div v-show="show2">hello world!</div>
+      </transition>
+      <button @click="handleClick2">click</button>
     </div>
     `
   });

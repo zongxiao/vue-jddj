@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    .v-enter-from, .v-leave-to {
+      opacity: 0;
+    }
+    .v-enter-active, .v-leave-active {
+      transition: opacity 1s ease;
+    }
+    .v-enter-to, .v-leave-from {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  const ComponentA = {
+    template: '<h4>Hello world</h4>'
+  }
+  const ComponentB = {
+    template: '<h4>Bye world</h4>'
+  }
+  const app = Vue.createApp({
+    data() {
+      return {
+        show: true,
+      }
+    },
+    methods: {
+      handleClick() {
+        this.show = !this.show;
+      }
+    },
+    components: {
+      'component-a': ComponentA,
+      'component-b': ComponentB,
+    },
+    // <transition></transition>组件设置mode属性，可以指定元素进出顺序。out-in先出后进执行动画。 appear属性则是页面加载的时候执行动画
+    template: `
+    <div>
+      <transition mode="out-in" appear>
+        <component-a v-if="show" />
+        <component-b v-else />
+      </transition>
+      <button @click="handleClick">click</button>
+    </div>
+    `
+  });
+  const vm = app.mount('#root');
+</script>
+</html>

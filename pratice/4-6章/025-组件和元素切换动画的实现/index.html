@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    .v-enter-from, .v-leave-to {
+      opacity: 0;
+    }
+    .v-enter-active, .v-leave-active {
+      transition: opacity 1s ease;
+    }
+    .v-enter-to, .v-leave-from {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // 使用Vue对象的createApp函数创建用mount函数挂载并且挂载
+  const app = Vue.createApp({
+    data() {
+      return {
+        show: true,
+      }
+    },
+    methods: {
+      handleClick() {
+        this.show = !this.show;
+      }
+    },
+    // <transition></transition>组件设置mode属性，可以指定元素进出顺序。out-in先出后进执行动画。 appear属性则是页面加载的时候执行动画
+    template: `
+    <div>
+      <transition mode="out-in" appear>
+        <div v-if="show">hello world!</div>
+        <div v-else>Bye world!</div>
+      </transition>
+      <button @click="handleClick">click</button>
+    </div>
+    `
+  });
+  const vm = app.mount('#root');
+</script>
+</html>
