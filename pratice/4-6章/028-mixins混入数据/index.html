@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mixins混入</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // mixin 混入
+
+  // 组件 data methods 优先级高于mixins: [MyMixin] 中的data methods（自己有就用自己的，没有就用mixin的）
+  // 生命周期函数，先执行 mixin里面的，再执行组件里面的（生命周期函数如：created等等 都会一起执行 顺序是先mixin）
+  // 子组件想要用mixin混入进去的东西，必须要在子组件也注入mixins
+  const MyMixin = {
+    data() {
+      return {
+        countNumber: 100,
+        myName: 'mixin name'
+      }
+    },
+    created() {
+      console.log('MyMixin created()')
+    },
+    methods: {
+      handleClick() {
+        console.log('MyMixin handleClick');
+      }
+    }
+  }
+  const app = Vue.createApp({
+    data() {
+      return {
+        countNumber: 1
+      }
+    },
+    mixins: [MyMixin],
+    created() {
+      console.log('created()')
+    },
+    methods: {
+      handleClick() {
+        console.log('handleClick');
+      },
+    },
+    template: `
+    <div>
+      <h4>{{countNumber}}</h4>
+      <h4>{{myName}}</h4>
+      <child />
+      <button class="button-class" @click="handleClick">click</button>
+    </div>
+    `
+  });
+  app.component('child', {
+    mixins: [MyMixin],
+    template: `<h3>我是child子组件，我调用一下mixin数据myName：{{myName}}</h3>`
+  })
+  const vm = app.mount('#root');
+</script>
+
+</html>

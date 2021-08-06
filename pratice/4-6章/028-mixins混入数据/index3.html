@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mixins混入</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // mixin 混入
+  const app = Vue.createApp({
+    mixins: [
+      { number: 2, count: '2' }
+    ],
+    number: 1,
+    count: 1,
+    template: `
+    <div>
+      <h4>我没有用app.config.optionMergeStrategies.number改优先级，所以优先输出app的number也就是1：{{this.$options.number}}</h4>
+      <h4>我用app.config.optionMergeStrategies.count改了count输出的优先级，所以优先输出，mixin的count，也就是2：{{this.$options.count}}</h4>
+    </div>
+    `
+  });
+
+  app.config.optionMergeStrategies.count = (mixinVal, appVal) => {
+    return mixinVal || appVal;
+  }
+  const vm = app.mount('#root');
+</script>
+
+</html>

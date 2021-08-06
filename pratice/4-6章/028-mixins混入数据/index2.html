@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mixins混入</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // mixin 混入
+  const app = Vue.createApp({
+    data() {
+      return {
+        countNumber: 1
+      }
+    },
+    created() {
+      console.log('created()')
+    },
+    methods: {
+      // handleClick() {
+      //   console.log('handleClick');
+      // },
+    },
+    template: `
+    <div>
+      <h4>{{countNumber}}</h4>
+      <h4>{{myName}}</h4>
+      <child />
+      <button class="button-class" @click="handleClick">click</button>
+    </div>
+    `
+  });
+  // 注册全局mixin           app.mixin({ data() { return {} } })   全局的mixin不推荐使用 维护成本较高
+  app.mixin({
+    data() {
+      return {
+        countNumber: 100,
+        myName: 'mixin name'
+      }
+    },
+    created() {
+      console.log('MyMixin created()')
+    },
+    methods: {
+      handleClick() {
+        console.log('MyMixin handleClick');
+      }
+    }
+  });
+  app.component('child', {
+    template: `<h3>我是child子组件，我调用一下mixin数据myName：{{myName}}</h3>`
+  })
+  const vm = app.mount('#root');
+</script>
+
+</html>

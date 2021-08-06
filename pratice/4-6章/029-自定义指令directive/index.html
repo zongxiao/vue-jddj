@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自定义指令</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  // 使用Vue对象的createApp函数创建用mount函数挂载并且挂载
+  
+  // 局部指令，需要在createApp里面注入
+  const directives = {
+    'changebgcolor': {
+      mounted(el) {
+        el.style.backgroundColor = '#cccccc';
+      }
+    }
+  }
+  const app = Vue.createApp({
+    directives: directives,
+    data() {
+      return {
+        show: true
+      }
+    },
+    mounted() {
+      this.$refs.input.focus();
+    },
+    template: `
+    <div>
+      <div v-if="show">
+        <input ref="input" />
+        <input v-changebordercolor />
+      </div>
+      <div v-show="show">
+        <input v-changebgcolor v-changebordercolor />
+      </div>
+    </div>
+    `
+  });
+  // 全局指令directive
+  app.directive('changebordercolor', {
+    mounted(el) {
+      el.style.border = "10px solid red";
+      el.style.display = "block";
+    },
+    // v-show的状态改变之前，beforeUpdate()会被执行
+    beforeUpdate() {
+      console.log('beforeUpdate');
+    },
+    // v-if=false的时候移除掉，移除之前会执行beforeUnmount
+    beforeUnmount() {
+      console.log('beforeUnmount');
+      this.show = true;
+    }
+  })
+  const vm = app.mount('#root');
+</script>
+
+</html>
