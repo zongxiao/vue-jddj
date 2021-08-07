@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v的h函数</title>
+  <!-- 引入vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+  <style>
+    .my-span { font-size: 14px; }
+  </style>
+<body>
+  <div id="root"></div>
+</body>
+<script>
+  const app = Vue.createApp({
+    data() {
+      return {
+        show: false
+      }
+    },
+    template: `
+    <div>
+      <my-title :number="1">
+        hello-world
+      </my-title>
+    </div>
+    `
+  });
+  app.component('my-title', {
+    props: ['number'],
+    // template: `
+    //   <div>
+    //     <h1 v-if="number === 1"><slot /></h1>
+    //     <h4 v-if="number === 4"><slot /></h4>
+    //   </div>
+    // `
+    render() {
+      return Vue.h('h' + this.number, {name: 'account'}, [this.$slots.default(), Vue.h('span', {'class': 'my-span'}, 'span tag')])
+    }
+  })
+  const vm = app.mount('#root');
+</script>
+
+</html>
